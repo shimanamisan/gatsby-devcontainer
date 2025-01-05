@@ -1,0 +1,35 @@
+services:
+  # リバースプロキシの設定
+  nginx-proxy:
+    container_name: nginx-proxy-sample
+    # ビルドコンテキストを指定
+    build:
+      context: ./proxy
+      dockerfile: ./Dockerfile
+    # 任意のイメージ名を指定する
+    image: nginx-proxy-sample:1.0
+    ports:
+      # ホストOS側で8090番を公開し、nginx-proxy コンテナの80番ポートへマッピングする
+      # jwilder/nginx-proxy:alpine はデフォルトで80番ポートでアクセスを受け付ける
+      - 8090:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  # Gatsby.js を動作させる Node.js の設定
+  app:
+    container_name: gatsby-develop-sample
+    # ビルドコンテキストを指定
+    build:
+      context: ./node
+      dockerfile: ./Dockerfile
+    image: gatsby-develop-sample:1.0
+    environment:
+      # devcontainerでGatsbyのTelemetryの表示をoffにする
+      # 参考: https://bit.ly/3Y7VNgC
+      - GATSBY_TELEMETRY_DISABLED=1
+      # リバースプロキシの test.example.com や 192.168.10.10 へのアクセスはこのコンテナに転送する用に指定
+      - VIRTUAL_HOST=test.example.com,192.168.10.10
+      # リバースプロキシの転送ポートが 8000 になるように指定
+      - VIRTUAL_PORT=8000
+    volumes:
+      - ../:/workspace:cached

@@ -1,0 +1,39 @@
+{
+  // INFO: https://bufferings.hatenablog.com/entry/2020/06/11/233201
+  // INFO: https://techblog.roxx.co.jp/entry/2021/04/19/132838
+  "name": "gatsby-develop-sample",
+  "dockerComposeFile": "docker-compose.yml",
+  // docker-compose.ymlファイル内のどのサービスをVS Codeで操作するか指定する
+  "service": "app",
+  // ワークスペースを指定
+  "workspaceFolder": "/workspace",
+  // vscode でコンテナに接続した際のユーザーを指定する
+  "remoteUser": "node",
+  // devcontainerで開いた時のvscode側の設定カスタマイズ
+  "customizations": {
+    // VS Code固有のプロパティを設定します
+    "vscode": {
+      // 拡張機能などの設定
+      "settings": {
+        /*****************************
+        * VS Codeの基本設定
+        ******************************/
+        // エディターのインデントのサイズを指定（デフォルトは4）
+        "editor.tabSize": 2
+      },
+      // コンテナ内にインストールする拡張機能を指定する
+      "extensions": [
+        // indent-rainbow
+        "oderwat.indent-rainbow",
+        // vscode-styled-components
+        "styled-components.vscode-styled-components",
+        // GraphQL: Syntax Highlighting
+        "GraphQL.vscode-graphql-syntax",
+        // Thunder Client
+        "rangav.vscode-thunder-client",
+        // Phind.com - Chat with your Codebase
+        "phind.phind"
+      ]
+    }
+  }
+}
